@@ -460,36 +460,21 @@ CLASS lsc_ZR_Chamado IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD save_modified.
-    DATA logs TYPE STANDARD TABLE OF zchm_log WITH EMPTY KEY.
+    DATA chamados TYPE zcl_chm_log_legado=>tt_chamado.
 
-    LOOP AT create-chamado INTO DATA(criado).
-      APPEND VALUE #( chamado_uuid = criado-ChamadoUUID
-                      operacao     = 'C'
-                      status       = criado-Status ) TO logs.
-    ENDLOOP.
+    IF create-chamado IS NOT INITIAL.
+      chamados = CORRESPONDING #( create-chamado MAPPING FROM ENTITY ).
+      zcl_chm_log_legado=>gravar( chamados = chamados operacao = 'C' ).
+    ENDIF.
 
-    LOOP AT update-chamado INTO DATA(alterado).
-      APPEND VALUE #( chamado_uuid = alterado-ChamadoUUID
-                      operacao     = 'U'
-                      status       = alterado-Status ) TO logs.
-    ENDLOOP.
+    IF update-chamado IS NOT INITIAL.
+      chamados = CORRESPONDING #( update-chamado MAPPING FROM ENTITY ).
+      zcl_chm_log_legado=>gravar( chamados = chamados operacao = 'U' ).
+    ENDIF.
 
     LOOP AT delete-chamado INTO DATA(excluido).
-      APPEND VALUE #( chamado_uuid = excluido-ChamadoUUID
-                      operacao     = 'D' ) TO logs.
+      zcl_chm_log_legado=>excluir( excluido-ChamadoUUID ).
     ENDLOOP.
-
-    TRY.
-        LOOP AT logs ASSIGNING FIELD-SYMBOL(<log>).
-          <log>-log_uuid      = cl_system_uuid=>create_uuid_x16_static( ).
-          <log>-usuario       = sy-uname.
-          <log>-registrado_em = utclong_current( ).
-        ENDLOOP.
-      CATCH cx_uuid_error INTO DATA(erro).
-        RAISE SHORTDUMP erro.
-    ENDTRY.
-
-    INSERT zchm_log FROM TABLE @logs.
   ENDMETHOD.
 
 ENDCLASS.
