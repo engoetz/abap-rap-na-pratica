@@ -4,6 +4,10 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
       IMPORTING keys REQUEST requested_authorizations FOR Chamado RESULT result.
 
+    METHODS get_global_authorizations FOR GLOBAL AUTHORIZATION
+      IMPORTING REQUEST requested_authorizations FOR Chamado
+      RESULT result.
+
     METHODS definirStatusInicial FOR DETERMINE ON MODIFY
       IMPORTING keys FOR Chamado~definirStatusInicial.
 
@@ -36,6 +40,21 @@ ENDCLASS.
 CLASS lhc_Chamado IMPLEMENTATION.
 
   METHOD get_instance_authorizations.
+  ENDMETHOD.
+
+  METHOD get_global_authorizations.
+
+    IF requested_authorizations-%create = if_abap_behv=>mk-on.
+
+      AUTHORITY-CHECK OBJECT 'ZCHM_CHAM'
+        ID 'ACTVT' FIELD '01'.
+
+      result-%create = COND #(
+        WHEN sy-subrc = 0 THEN if_abap_behv=>auth-allowed
+        ELSE if_abap_behv=>auth-unauthorized ).
+
+    ENDIF.
+
   ENDMETHOD.
 
   METHOD definirStatusInicial.

@@ -6,7 +6,7 @@ define behavior for ZR_Chamado alias Chamado
 persistent table zchm_chamado
 draft table zchm_chamado_d
 lock master total etag LastChangedAt
-authorization master ( instance )
+authorization master ( global, instance )
 etag master LocalLastChangedAt
 {
   create;
