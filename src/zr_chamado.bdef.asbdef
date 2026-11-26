@@ -36,6 +36,7 @@ etag master LocalLastChangedAt
 
   action encerrar result [1] $self;
   action encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
+  factory action copiar [1];
 
   mapping for zchm_chamado
   {

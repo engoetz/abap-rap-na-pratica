@@ -22,9 +22,11 @@ annotate view ZC_Chamado with
 
   @UI.lineItem: [{ position: 10 },
                  { type: #FOR_ACTION, dataAction: 'encerrar', label: 'Encerrar' },
-                 { type: #FOR_ACTION, dataAction: 'encerrarComMotivo', label: 'Encerrar com motivo' }]
+                 { type: #FOR_ACTION, dataAction: 'encerrarComMotivo', label: 'Encerrar com motivo' },
+                 { type: #FOR_ACTION, dataAction: 'copiar', label: 'Copiar' }]
   @UI.identification: [{ type: #FOR_ACTION, dataAction: 'encerrar', label: 'Encerrar' },
-                       { type: #FOR_ACTION, dataAction: 'encerrarComMotivo', label: 'Encerrar com motivo' }]
+                       { type: #FOR_ACTION, dataAction: 'encerrarComMotivo', label: 'Encerrar com motivo' },
+                       { type: #FOR_ACTION, dataAction: 'copiar', label: 'Copiar' }]
   @UI.fieldGroup: [{ qualifier: 'Geral', position: 10 }]
   @EndUserText.label: 'ID do chamado'
   ChamadoID;

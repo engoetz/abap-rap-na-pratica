@@ -17,4 +17,5 @@ use etag
 
   use action encerrar;
   use action encerrarComMotivo;
+  use action copiar;
 }

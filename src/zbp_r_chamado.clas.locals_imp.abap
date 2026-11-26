@@ -22,6 +22,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS encerrarComMotivo FOR MODIFY
       IMPORTING keys FOR ACTION Chamado~encerrarComMotivo RESULT result.
 
+    METHODS copiar FOR MODIFY
+      IMPORTING keys FOR ACTION Chamado~copiar.
+
 ENDCLASS.
 
 CLASS lhc_Chamado IMPLEMENTATION.
@@ -181,6 +184,34 @@ CLASS lhc_Chamado IMPLEMENTATION.
     result = VALUE #( FOR chamado IN chamados
                       ( %tky   = chamado-%tky
                         %param = chamado ) ).
+  ENDMETHOD.
+
+  METHOD copiar.
+    DATA novos TYPE TABLE FOR CREATE ZR_Chamado.
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(originais).
+
+    LOOP AT originais INTO DATA(original).
+      DATA(key) = keys[ KEY entity %key = original-%key ].
+
+      APPEND VALUE #( %cid       = key-%cid
+                      %is_draft  = key-%param-%is_draft
+                      Titulo     = |Cópia de { original-Titulo }|
+                      Cliente    = original-Cliente
+                      Prioridade = original-Prioridade
+                      Descricao  = original-Descricao ) TO novos.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        CREATE FIELDS ( Titulo Cliente Prioridade Descricao )
+        WITH novos
+      MAPPED DATA(criados).
+
+    mapped-chamado = criados-chamado.
   ENDMETHOD.
 
 ENDCLASS.
