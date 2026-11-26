@@ -437,3 +437,24 @@ CLASS lhc_Apontamento IMPLEMENTATION.
   ENDMETHOD.
 
 ENDCLASS.
+
+CLASS lsc_ZR_Chamado DEFINITION INHERITING FROM cl_abap_behavior_saver.
+  PROTECTED SECTION.
+
+    METHODS finalize REDEFINITION.
+
+    METHODS check_before_save REDEFINITION.
+
+ENDCLASS.
+
+CLASS lsc_ZR_Chamado IMPLEMENTATION.
+
+  METHOD finalize.
+    DATA(fase) = 'finalize'.
+  ENDMETHOD.
+
+  METHOD check_before_save.
+    DATA(fase) = 'check before save'.
+  ENDMETHOD.
+
+ENDCLASS.
