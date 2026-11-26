@@ -35,6 +35,7 @@ etag master LocalLastChangedAt
   validation validarCliente on save { create; field Cliente; }
 
   action encerrar result [1] $self;
+  action encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
 
   mapping for zchm_chamado
   {

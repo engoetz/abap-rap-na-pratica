@@ -16,4 +16,5 @@ use etag
   use action Prepare;
 
   use action encerrar;
+  use action encerrarComMotivo;
 }

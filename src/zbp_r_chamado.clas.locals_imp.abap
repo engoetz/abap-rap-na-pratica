@@ -19,6 +19,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS encerrar FOR MODIFY
       IMPORTING keys FOR ACTION Chamado~encerrar RESULT result.
 
+    METHODS encerrarComMotivo FOR MODIFY
+      IMPORTING keys FOR ACTION Chamado~encerrarComMotivo RESULT result.
+
 ENDCLASS.
 
 CLASS lhc_Chamado IMPLEMENTATION.
@@ -134,6 +137,41 @@ CLASS lhc_Chamado IMPLEMENTATION.
         WITH VALUE #( FOR key IN keys
                       ( %tky   = key-%tky
                         Status = 'E' ) ).
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    result = VALUE #( FOR chamado IN chamados
+                      ( %tky   = chamado-%tky
+                        %param = chamado ) ).
+  ENDMETHOD.
+
+  METHOD encerrarComMotivo.
+    DATA alteracoes TYPE TABLE FOR UPDATE ZR_Chamado.
+
+    LOOP AT keys INTO DATA(key).
+      IF key-%param-Motivo IS INITIAL.
+        APPEND VALUE #( %tky = key-%tky ) TO failed-chamado.
+        APPEND VALUE #( %tky = key-%tky
+                        %msg = new_message(
+                          id       = 'ZCHM_MSG'
+                          number   = '003'
+                          severity = if_abap_behv_message=>severity-error ) )
+               TO reported-chamado.
+        CONTINUE.
+      ENDIF.
+
+      APPEND VALUE #( %tky      = key-%tky
+                      Status    = 'E'
+                      Descricao = |Encerrado: { key-%param-Motivo }| )
+             TO alteracoes.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        UPDATE FIELDS ( Status Descricao ) WITH alteracoes.
 
     READ ENTITIES OF ZR_Chamado IN LOCAL MODE
       ENTITY Chamado

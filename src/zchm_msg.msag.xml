@@ -20,6 +20,12 @@
      <MSGNR>002</MSGNR>
      <TEXT>Cliente &amp;1 não existe</TEXT>
     </T100>
+    <T100>
+     <SPRSL>P</SPRSL>
+     <ARBGB>ZCHM_MSG</ARBGB>
+     <MSGNR>003</MSGNR>
+     <TEXT>Informe o motivo do encerramento</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

@@ -28,3 +28,4 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZC_Chamado` | Behavior definition (projeção) | 04.1 | Expõe ao serviço, com `use`, as operações definidas na BDEF base |
 | `ZCHM_CHAMADO_D` | Tabela (draft) | 05.2 | Tabela de rascunho de `ZR_Chamado`: um campo por elemento da view, com os nomes da CDS, mais o include administrativo `sych_bdl_draft_admin_inc`; gerada pelo ADT (Ctrl+1 na BDEF), nunca editada à mão |
 | `ZCHM_MSG` | Classe de mensagens | 06.4 | Textos das mensagens do app: 001 título obrigatório, 002 cliente inexistente; a 003 (motivo do encerramento) entra na 06.6 |
+| `ZA_MotivoEncerramento` | CDS abstract entity | 06.6 | Estrutura do parâmetro da action `encerrarComMotivo`: um campo, `Motivo`; o Fiori elements monta o diálogo a partir dela |
