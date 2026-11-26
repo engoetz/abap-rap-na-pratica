@@ -13,6 +13,8 @@ etag master LocalLastChangedAt
   update;
   delete;
 
+  association _Apontamentos { create; with draft; }
+
   draft action Edit;
   draft action Activate optimized;
   draft action Discard;
@@ -53,6 +55,37 @@ etag master LocalLastChangedAt
     Prioridade         = prioridade;
     Status             = status;
     HorasTotal         = horas_total;
+    Descricao          = descricao;
+    CreatedBy          = created_by;
+    CreatedAt          = created_at;
+    LastChangedBy      = last_changed_by;
+    LastChangedAt      = last_changed_at;
+    LocalLastChangedAt = local_last_changed_at;
+  }
+}
+
+define behavior for ZR_Apontamento alias Apontamento
+persistent table zchm_apont
+draft table zchm_apont_d
+lock dependent by _Chamado
+authorization dependent by _Chamado
+etag master LocalLastChangedAt
+{
+  update;
+  delete;
+
+  field ( numbering : managed, readonly ) ApontUUID;
+  field ( readonly ) ChamadoUUID, CreatedBy, CreatedAt,
+                     LastChangedBy, LastChangedAt, LocalLastChangedAt;
+
+  association _Chamado { with draft; }
+
+  mapping for zchm_apont
+  {
+    ApontUUID          = apont_uuid;
+    ChamadoUUID        = chamado_uuid;
+    DataApont          = data_apont;
+    Horas              = horas;
     Descricao          = descricao;
     CreatedBy          = created_by;
     CreatedAt          = created_at;

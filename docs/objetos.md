@@ -23,12 +23,13 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZCHM_CLI` | Objeto de autorização | 03.6 | Cliente (`ZCHM_CLI`) e atividade (`ACTVT`, 03 = exibir); o papel de cada usuário na PFCG diz quais clientes ele enxerga |
 | `ZR_Chamado` | Access control (DCL) | 03.6 | Só passa a linha cujo cliente está na autorização `ZCHM_CLI` do usuário |
 | `ZC_Chamado` | Access control (DCL) | 03.6 | A projeção herda as condições de `ZR_Chamado` (`inheriting conditions from entity`) |
-| `ZR_Chamado` | Behavior definition (managed) | 04.1 | Comportamento do business object: `create`, `update`, `delete`, chave UUID gerada pelo framework, campos somente leitura e o mapping para `zchm_chamado`; com draft a partir da 05.2 |
+| `ZR_Chamado` | Behavior definition (managed) | 04.1 | Comportamento do business object: `create`, `update`, `delete`, chave UUID gerada pelo framework, campos somente leitura e o mapping para `zchm_chamado`; com draft a partir da 05.2; a partir da 07.2 traz também o bloco do filho `ZR_Apontamento` (alias `Apontamento`), criado pela associação `_Apontamentos` |
 | `ZBP_R_CHAMADO` | Classe (behavior pool) | 04.1 | Onde mora a lógica do business object; classe local handler `lhc_Chamado`; até o M05 só com o método de autorização vazio, no M06 ganha as determinations, validations, actions e o feature control |
-| `ZC_Chamado` | Behavior definition (projeção) | 04.1 | Expõe ao serviço, com `use`, as operações definidas na BDEF base |
+| `ZC_Chamado` | Behavior definition (projeção) | 04.1 | Expõe ao serviço, com `use`, as operações definidas na BDEF base; a partir da 07.2 inclui o bloco de `ZC_Apontamento` e `use association` |
 | `ZCHM_CHAMADO_D` | Tabela (draft) | 05.2 | Tabela de rascunho de `ZR_Chamado`: um campo por elemento da view, com os nomes da CDS, mais o include administrativo `sych_bdl_draft_admin_inc`; gerada pelo ADT (Ctrl+1 na BDEF), nunca editada à mão |
 | `ZCHM_MSG` | Classe de mensagens | 06.4 | Textos das mensagens do app: 001 título obrigatório, 002 cliente inexistente; a 003 (motivo do encerramento) entra na 06.6 |
 | `ZA_MotivoEncerramento` | CDS abstract entity | 06.6 | Estrutura do parâmetro da action `encerrarComMotivo`: um campo, `Motivo`; o Fiori elements monta o diálogo a partir dela |
 | `ZCHM_APONT` | Tabela | 07.1 | Tabela de apontamentos de horas: chave UUID própria, `chamado_uuid` com a chave do chamado (pai), data, horas, descrição e os cinco campos administrativos; já vem pronta na aula |
 | `ZR_Apontamento` | CDS view entity (filho) | 07.1 | View base do apontamento: lê `zchm_apont` e aponta para o chamado com `association to parent` |
 | `ZC_Apontamento` | CDS projection view (filho) | 07.1 | Projeção de `ZR_Apontamento` para o app; `_Chamado` redirecionada para `ZC_Chamado` |
+| `ZCHM_APONT_D` | Tabela (draft) | 07.2 | Tabela de rascunho de `ZR_Apontamento`, gerada pelo ADT (Ctrl+1 na BDEF); a aula 07.4 abre a tabela e explica o `with draft` das associações |

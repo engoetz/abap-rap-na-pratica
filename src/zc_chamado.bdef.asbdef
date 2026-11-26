@@ -19,4 +19,14 @@ use etag
   use action encerrar;
   use action encerrarComMotivo;
   use action copiar;
+
+  use association _Apontamentos { create; with draft; }
+}
+
+define behavior for ZC_Apontamento alias Apontamento
+{
+  use update;
+  use delete;
+
+  use association _Chamado { with draft; }
 }
