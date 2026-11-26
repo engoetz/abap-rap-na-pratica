@@ -14,6 +14,7 @@ etag master LocalLastChangedAt
   field ( numbering : managed, readonly ) ChamadoUUID;
   field ( readonly ) ChamadoID, CreatedBy, CreatedAt,
                      LastChangedBy, LastChangedAt, LocalLastChangedAt;
+  field ( mandatory ) Titulo, Cliente;
 
   mapping for zchm_chamado
   {
