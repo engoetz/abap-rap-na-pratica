@@ -1,0 +1,4 @@
+@EndUserText.label: 'Gestão de chamados - serviço de UI'
+define service ZUI_CHAMADO {
+  expose ZC_Chamado as Chamado;
+}

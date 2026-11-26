@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SRVB" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SRVB>
+    <METADATA>
+     <NAME>ZUI_CHAMADO_O4</NAME>
+     <TYPE>SRVB/SVB</TYPE>
+     <DESCRIPTION>Gestão de chamados - OData V4 UI</DESCRIPTION>
+     <DESCRIPTION_TEXT_LIMIT>60</DESCRIPTION_TEXT_LIMIT>
+     <LANGUAGE>PT</LANGUAGE>
+     <MASTER_LANGUAGE>PT</MASTER_LANGUAGE>
+    </METADATA>
+    <SERVICES>
+     <item>
+      <NAME>ZUI_CHAMADO</NAME>
+      <CONTENT>
+       <item>
+        <VERSION>0001</VERSION>
+        <SERVICE_DEFINITION>
+         <URI>/sap/bc/adt/ddic/srvd/sources/zui_chamado</URI>
+         <TYPE>SRVD/SRV</TYPE>
+         <NAME>ZUI_CHAMADO</NAME>
+        </SERVICE_DEFINITION>
+       </item>
+      </CONTENT>
+     </item>
+    </SERVICES>
+    <BINDING>
+     <TYPE>ODATA</TYPE>
+     <VERSION>V4</VERSION>
+     <CATEGORY>0</CATEGORY>
+     <IMPLEMENTATION>
+      <NAME>ZUI_CHAMADO_O4</NAME>
+     </IMPLEMENTATION>
+    </BINDING>
+   </SRVB>
+  </asx:values>
+ </asx:abap>
+</abapGit>
