@@ -17,7 +17,11 @@ etag master LocalLastChangedAt
   draft action Activate optimized;
   draft action Discard;
   draft action Resume;
-  draft determine action Prepare;
+  draft determine action Prepare
+  {
+    validation validarTitulo;
+    validation validarCliente;
+  }
 
   field ( numbering : managed, readonly ) ChamadoUUID;
   field ( readonly ) ChamadoID, Status, CreatedBy, CreatedAt,
@@ -26,6 +30,9 @@ etag master LocalLastChangedAt
 
   determination definirStatusInicial on modify { create; }
   determination definirNumero on save { create; }
+
+  validation validarTitulo on save { create; field Titulo; }
+  validation validarCliente on save { create; field Cliente; }
 
   mapping for zchm_chamado
   {
