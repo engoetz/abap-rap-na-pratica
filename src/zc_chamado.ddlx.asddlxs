@@ -1,0 +1,30 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: { typeName: 'Chamado', typeNamePlural: 'Chamados' }
+annotate view ZC_Chamado with
+{
+  @UI.lineItem: [{ position: 10 }]
+  @EndUserText.label: 'ID do chamado'
+  ChamadoID;
+
+  @UI.lineItem: [{ position: 20 }]
+  @EndUserText.label: 'Título'
+  Titulo;
+
+  @UI.lineItem: [{ position: 30 }]
+  @UI.selectionField: [{ position: 10 }]
+  Cliente;
+
+  @UI.lineItem: [{ position: 40 }]
+  @UI.selectionField: [{ position: 20 }]
+  @EndUserText.label: 'Prioridade'
+  Prioridade;
+
+  @UI.lineItem: [{ position: 50 }]
+  @UI.selectionField: [{ position: 30 }]
+  @EndUserText.label: 'Status'
+  Status;
+
+  @UI.lineItem: [{ position: 60 }]
+  @EndUserText.label: 'Total de horas'
+  HorasTotal;
+}

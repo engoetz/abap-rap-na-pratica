@@ -1,3 +1,5 @@
+@Metadata.allowExtensions: true
+@Search.searchable: true
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Chamado - projeção para o app'
 define root view entity ZC_Chamado
@@ -6,6 +8,7 @@ define root view entity ZC_Chamado
 {
   key ChamadoUUID,
       ChamadoID,
+      @Search.defaultSearchElement: true
       Titulo,
       Cliente,
       Prioridade,
