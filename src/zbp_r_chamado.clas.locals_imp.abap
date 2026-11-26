@@ -25,6 +25,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS copiar FOR MODIFY
       IMPORTING keys FOR ACTION Chamado~copiar.
 
+    METHODS get_instance_features FOR INSTANCE FEATURES
+      IMPORTING keys REQUEST requested_features FOR Chamado RESULT result.
+
 ENDCLASS.
 
 CLASS lhc_Chamado IMPLEMENTATION.
@@ -212,6 +215,32 @@ CLASS lhc_Chamado IMPLEMENTATION.
       MAPPED DATA(criados).
 
     mapped-chamado = criados-chamado.
+  ENDMETHOD.
+
+  METHOD get_instance_features.
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        FIELDS ( Status )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    LOOP AT chamados INTO DATA(chamado).
+      IF chamado-Status = 'E'.
+        APPEND VALUE #(
+          %tky                      = chamado-%tky
+          %action-encerrar          = if_abap_behv=>fc-o-disabled
+          %action-encerrarComMotivo = if_abap_behv=>fc-o-disabled
+          %field-Titulo             = if_abap_behv=>fc-f-read_only
+          %field-Cliente            = if_abap_behv=>fc-f-read_only
+          %field-Prioridade         = if_abap_behv=>fc-f-read_only
+          %field-Descricao          = if_abap_behv=>fc-f-read_only ) TO result.
+      ELSE.
+        APPEND VALUE #(
+          %tky           = chamado-%tky
+          %field-Titulo  = if_abap_behv=>fc-f-mandatory
+          %field-Cliente = if_abap_behv=>fc-f-mandatory ) TO result.
+      ENDIF.
+    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.

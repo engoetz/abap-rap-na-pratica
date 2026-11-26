@@ -26,7 +26,7 @@ etag master LocalLastChangedAt
   field ( numbering : managed, readonly ) ChamadoUUID;
   field ( readonly ) ChamadoID, Status, CreatedBy, CreatedAt,
                      LastChangedBy, LastChangedAt, LocalLastChangedAt;
-  field ( mandatory ) Titulo, Cliente;
+  field ( features : instance ) Titulo, Cliente, Prioridade, Descricao;
 
   determination definirStatusInicial on modify { create; }
   determination definirNumero on save { create; }
@@ -34,8 +34,8 @@ etag master LocalLastChangedAt
   validation validarTitulo on save { create; field Titulo; }
   validation validarCliente on save { create; field Cliente; }
 
-  action encerrar result [1] $self;
-  action encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
+  action ( features : instance ) encerrar result [1] $self;
+  action ( features : instance ) encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
   factory action copiar [1];
 
   mapping for zchm_chamado
