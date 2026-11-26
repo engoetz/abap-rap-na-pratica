@@ -26,6 +26,18 @@
      <MSGNR>003</MSGNR>
      <TEXT>Informe o motivo do encerramento</TEXT>
     </T100>
+    <T100>
+     <SPRSL>P</SPRSL>
+     <ARBGB>ZCHM_MSG</ARBGB>
+     <MSGNR>010</MSGNR>
+     <TEXT>Informe horas maiores que zero.</TEXT>
+    </T100>
+    <T100>
+     <SPRSL>P</SPRSL>
+     <ARBGB>ZCHM_MSG</ARBGB>
+     <MSGNR>011</MSGNR>
+     <TEXT>A data do apontamento não pode ser futura.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

@@ -272,6 +272,12 @@ CLASS lhc_Apontamento DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS calcularTotalHoras FOR DETERMINE ON MODIFY
       IMPORTING keys FOR Apontamento~calcularTotalHoras.
 
+    METHODS validarHoras FOR VALIDATE ON SAVE
+      IMPORTING keys FOR Apontamento~validarHoras.
+
+    METHODS validarData FOR VALIDATE ON SAVE
+      IMPORTING keys FOR Apontamento~validarData.
+
 ENDCLASS.
 
 CLASS lhc_Apontamento IMPLEMENTATION.
@@ -303,6 +309,62 @@ CLASS lhc_Apontamento IMPLEMENTATION.
         UPDATE FIELDS ( HorasTotal )
         WITH VALUE #( FOR c IN chamados
                       ( %tky = c-%tky  HorasTotal = c-HorasTotal ) ).
+  ENDMETHOD.
+
+  METHOD validarHoras.
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Apontamento
+        FIELDS ( ChamadoUUID Horas )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(apontamentos).
+
+    LOOP AT apontamentos INTO DATA(apont).
+      APPEND VALUE #( %tky        = apont-%tky
+                      %state_area = 'HORAS' ) TO reported-apontamento.
+
+      CHECK apont-Horas <= 0.
+
+      APPEND VALUE #( %tky = apont-%tky ) TO failed-apontamento.
+      APPEND VALUE #(
+        %tky           = apont-%tky
+        %state_area    = 'HORAS'
+        %path          = VALUE #( chamado-%is_draft   = apont-%is_draft
+                                  chamado-ChamadoUUID = apont-ChamadoUUID )
+        %element-Horas = if_abap_behv=>mk-on
+        %msg           = new_message( id       = 'ZCHM_MSG'
+                                      number   = '010'
+                                      severity = if_abap_behv_message=>severity-error )
+      ) TO reported-apontamento.
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD validarData.
+    DATA(hoje) = cl_abap_context_info=>get_system_date( ).
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Apontamento
+        FIELDS ( ChamadoUUID DataApont )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(apontamentos).
+
+    LOOP AT apontamentos INTO DATA(apont).
+      APPEND VALUE #( %tky        = apont-%tky
+                      %state_area = 'DATA' ) TO reported-apontamento.
+
+      CHECK apont-DataApont > hoje.
+
+      APPEND VALUE #( %tky = apont-%tky ) TO failed-apontamento.
+      APPEND VALUE #(
+        %tky               = apont-%tky
+        %state_area        = 'DATA'
+        %path              = VALUE #( chamado-%is_draft   = apont-%is_draft
+                                      chamado-ChamadoUUID = apont-ChamadoUUID )
+        %element-DataApont = if_abap_behv=>mk-on
+        %msg               = new_message( id       = 'ZCHM_MSG'
+                                          number   = '011'
+                                          severity = if_abap_behv_message=>severity-error )
+      ) TO reported-apontamento.
+    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.
