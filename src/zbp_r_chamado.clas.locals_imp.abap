@@ -70,14 +70,22 @@ CLASS lhc_Chamado IMPLEMENTATION.
         WITH CORRESPONDING #( keys )
       RESULT DATA(chamados).
 
-    LOOP AT chamados INTO DATA(chamado) WHERE Titulo IS INITIAL.
-      APPEND VALUE #( %tky = chamado-%tky ) TO failed-chamado.
+    LOOP AT chamados INTO DATA(chamado).
+      APPEND VALUE #( %tky        = chamado-%tky
+                      %state_area = 'VALIDAR_TITULO' ) TO reported-chamado.
 
-      APPEND VALUE #( %tky = chamado-%tky
-                      %msg = new_message_with_text(
-                        severity = if_abap_behv_message=>severity-error
-                        text     = 'Informe o título do chamado' ) )
-             TO reported-chamado.
+      IF chamado-Titulo IS INITIAL.
+        APPEND VALUE #( %tky = chamado-%tky ) TO failed-chamado.
+
+        APPEND VALUE #( %tky            = chamado-%tky
+                        %state_area     = 'VALIDAR_TITULO'
+                        %element-Titulo = if_abap_behv=>mk-on
+                        %msg            = new_message(
+                          id       = 'ZCHM_MSG'
+                          number   = '001'
+                          severity = if_abap_behv_message=>severity-error ) )
+               TO reported-chamado.
+      ENDIF.
     ENDLOOP.
   ENDMETHOD.
 
@@ -95,16 +103,23 @@ CLASS lhc_Chamado IMPLEMENTATION.
       INTO TABLE @DATA(clientes).
 
     LOOP AT chamados INTO DATA(chamado).
+      APPEND VALUE #( %tky        = chamado-%tky
+                      %state_area = 'VALIDAR_CLIENTE' ) TO reported-chamado.
+
       IF line_exists( clientes[ Cliente = chamado-Cliente ] ).
         CONTINUE.
       ENDIF.
 
       APPEND VALUE #( %tky = chamado-%tky ) TO failed-chamado.
 
-      APPEND VALUE #( %tky = chamado-%tky
-                      %msg = new_message_with_text(
+      APPEND VALUE #( %tky             = chamado-%tky
+                      %state_area      = 'VALIDAR_CLIENTE'
+                      %element-Cliente = if_abap_behv=>mk-on
+                      %msg             = new_message(
+                        id       = 'ZCHM_MSG'
+                        number   = '002'
                         severity = if_abap_behv_message=>severity-error
-                        text     = |Cliente { chamado-Cliente } não existe| ) )
+                        v1       = chamado-Cliente ) )
              TO reported-chamado.
     ENDLOOP.
   ENDMETHOD.
