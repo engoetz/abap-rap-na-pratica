@@ -16,6 +16,8 @@ define root view entity ZR_Chamado
       prioridade            as Prioridade,
       status                as Status,
       horas_total           as HorasTotal,
+      @EndUserText.label: 'Descrição'
+      descricao             as Descricao,
       @Semantics.user.createdBy: true
       created_by            as CreatedBy,
       @Semantics.systemDateTime.createdAt: true

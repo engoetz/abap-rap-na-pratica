@@ -27,6 +27,7 @@ define root view entity ZC_Chamado
       _Status.Descricao       as StatusTexto,
       _Status.Criticidade     as StatusCriticidade,
       HorasTotal,
+      Descricao,
       CreatedBy,
       CreatedAt,
       LastChangedBy,
