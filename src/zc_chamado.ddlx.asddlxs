@@ -12,7 +12,12 @@ annotate view ZC_Chamado with
       type: #FIELDGROUP_REFERENCE,
       targetQualifier: 'Geral',
       label: 'Informações gerais' },
-    { id: 'Admin', position: 20,
+    { id: 'Apontamentos', position: 20,
+      purpose: #STANDARD,
+      type: #LINEITEM_REFERENCE,
+      label: 'Apontamentos',
+      targetElement: '_Apontamentos' },
+    { id: 'Admin', position: 30,
       type: #FIELDGROUP_REFERENCE,
       targetQualifier: 'Admin',
       label: 'Dados administrativos' }

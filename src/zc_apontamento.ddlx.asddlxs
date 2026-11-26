@@ -1,0 +1,24 @@
+@Metadata.layer: #CORE
+@UI.headerInfo: { typeName: 'Apontamento',
+                  typeNamePlural: 'Apontamentos',
+                  title: { value: 'Descricao' } }
+annotate entity ZC_Apontamento with
+{
+  @UI.facet: [ { id: 'Dados', purpose: #STANDARD,
+                 type: #IDENTIFICATION_REFERENCE,
+                 label: 'Apontamento', position: 10 } ]
+  @UI.hidden: true
+  ApontUUID;
+
+  @EndUserText.label: 'Data'
+  @UI: { lineItem: [ { position: 10 } ], identification: [ { position: 10 } ] }
+  DataApont;
+
+  @EndUserText.label: 'Horas'
+  @UI: { lineItem: [ { position: 20 } ], identification: [ { position: 20 } ] }
+  Horas;
+
+  @EndUserText.label: 'Descrição'
+  @UI: { lineItem: [ { position: 30 } ], identification: [ { position: 30 } ] }
+  Descricao;
+}

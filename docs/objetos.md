@@ -15,9 +15,9 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZCHM_PRIORIDADE` | Domínio | 02.4 (exercício) | Valores fixos da prioridade: `A` Alta, `M` Média, `B` Baixa |
 | `ZI_PrioridadeVH` | CDS view entity | 02.4 (exercício) | Ajuda de pesquisa de prioridade: lê os valores fixos do domínio `ZCHM_PRIORIDADE` |
 | `ZC_Chamado` | CDS projection view (raiz) | 03.1 | Projeção de `ZR_Chamado` para o app de suporte, com `provider contract transactional_query`; a partir da 07.1 redireciona `_Apontamentos` para `ZC_Apontamento` |
-| `ZUI_CHAMADO` | Service definition | 03.2 | Diz o que entra no serviço: expõe `ZC_Chamado` com o nome público `Chamado` |
+| `ZUI_CHAMADO` | Service definition | 03.2 | Diz o que entra no serviço: expõe `ZC_Chamado` com o nome público `Chamado`; a partir da 07.3 expõe também `ZC_Apontamento` como `Apontamento` |
 | `ZUI_CHAMADO_O4` | Service binding (OData V4 - UI) | 03.2 | Publica `ZUI_CHAMADO` como OData V4 de UI e libera o preview do app; depois do pull é preciso publicar (botão *Publish*) |
-| `ZC_Chamado` | Metadata extension | 03.3 | Anotações de tela da projeção: colunas, filtros e cabeçalho da lista; seções da object page a partir da 03.4 |
+| `ZC_Chamado` | Metadata extension | 03.3 | Anotações de tela da projeção: colunas, filtros e cabeçalho da lista; seções da object page a partir da 03.4; seção com a tabela de apontamentos a partir da 07.3 |
 | `ZCHM` | Classe de objetos de autorização | 03.6 | Agrupa os objetos de autorização do app |
 | `ZCHM_CLI` | Campo de autorização | 03.6 | Campo de cliente (elemento de dados `KUNNR`) usado no objeto de autorização `ZCHM_CLI` |
 | `ZCHM_CLI` | Objeto de autorização | 03.6 | Cliente (`ZCHM_CLI`) e atividade (`ACTVT`, 03 = exibir); o papel de cada usuário na PFCG diz quais clientes ele enxerga |
@@ -33,3 +33,4 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZR_Apontamento` | CDS view entity (filho) | 07.1 | View base do apontamento: lê `zchm_apont` e aponta para o chamado com `association to parent` |
 | `ZC_Apontamento` | CDS projection view (filho) | 07.1 | Projeção de `ZR_Apontamento` para o app; `_Chamado` redirecionada para `ZC_Chamado` |
 | `ZCHM_APONT_D` | Tabela (draft) | 07.2 | Tabela de rascunho de `ZR_Apontamento`, gerada pelo ADT (Ctrl+1 na BDEF); a aula 07.4 abre a tabela e explica o `with draft` das associações |
+| `ZC_Apontamento` | Metadata extension | 07.3 | Anotações de tela do apontamento: colunas da tabela dentro do chamado (`@UI.lineItem`) e campos da página de detalhe (`@UI.identification`) |
