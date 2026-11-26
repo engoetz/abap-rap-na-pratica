@@ -2,6 +2,7 @@
 @Search.searchable: true
 @AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Chamado - projeção para o app'
+@ObjectModel.semanticKey: [ 'ChamadoID' ]
 define root view entity ZC_Chamado
   provider contract transactional_query
   as projection on ZR_Chamado
