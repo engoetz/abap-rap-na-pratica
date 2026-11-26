@@ -18,3 +18,8 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZUI_CHAMADO` | Service definition | 03.2 | Diz o que entra no serviço: expõe `ZC_Chamado` com o nome público `Chamado` |
 | `ZUI_CHAMADO_O4` | Service binding (OData V4 - UI) | 03.2 | Publica `ZUI_CHAMADO` como OData V4 de UI e libera o preview do app; depois do pull é preciso publicar (botão *Publish*) |
 | `ZC_Chamado` | Metadata extension | 03.3 | Anotações de tela da projeção: colunas, filtros e cabeçalho da lista; seções da object page a partir da 03.4 |
+| `ZCHM` | Classe de objetos de autorização | 03.6 | Agrupa os objetos de autorização do app |
+| `ZCHM_CLI` | Campo de autorização | 03.6 | Campo de cliente (elemento de dados `KUNNR`) usado no objeto de autorização `ZCHM_CLI` |
+| `ZCHM_CLI` | Objeto de autorização | 03.6 | Cliente (`ZCHM_CLI`) e atividade (`ACTVT`, 03 = exibir); o papel de cada usuário na PFCG diz quais clientes ele enxerga |
+| `ZR_Chamado` | Access control (DCL) | 03.6 | Só passa a linha cujo cliente está na autorização `ZCHM_CLI` do usuário |
+| `ZC_Chamado` | Access control (DCL) | 03.6 | A projeção herda as condições de `ZR_Chamado` (`inheriting conditions from entity`) |

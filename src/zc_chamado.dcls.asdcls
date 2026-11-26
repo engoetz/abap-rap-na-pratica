@@ -1,0 +1,6 @@
+@EndUserText.label: 'Projeção herda o acesso do chamado'
+@MappingRole: true
+define role ZC_Chamado {
+  grant select on ZC_Chamado
+    where inheriting conditions from entity ZR_Chamado;
+}

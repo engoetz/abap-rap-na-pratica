@@ -1,0 +1,6 @@
+@EndUserText.label: 'Chamados por cliente autorizado'
+@MappingRole: true
+define role ZR_Chamado {
+  grant select on ZR_Chamado
+    where ( Cliente ) = aspect pfcg_auth( ZCHM_CLI, ZCHM_CLI, ACTVT = '03' );
+}

@@ -1,4 +1,4 @@
-@AccessControl.authorizationCheck: #NOT_REQUIRED
+@AccessControl.authorizationCheck: #CHECK
 @EndUserText.label: 'Chamado de suporte'
 define root view entity ZR_Chamado
   as select from zchm_chamado

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SUSO" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <TOBJ>
+    <OBJCT>ZCHM_CLI</OBJCT>
+    <FIEL1>ZCHM_CLI</FIEL1>
+    <FIEL2>ACTVT</FIEL2>
+    <OCLSS>ZCHM</OCLSS>
+    <BNAME>DEVELOPER</BNAME>
+   </TOBJ>
+   <TOBJT>
+    <LANGU>P</LANGU>
+    <OBJECT>ZCHM_CLI</OBJECT>
+    <TTEXT>Chamados: cliente autorizado</TTEXT>
+   </TOBJT>
+   <TOBJVORFLG>
+    <OBJCT>ZCHM_CLI</OBJCT>
+   </TOBJVORFLG>
+   <TACTZ>
+    <TACTZ>
+     <BROBJ>ZCHM_CLI</BROBJ>
+     <ACTVT>03</ACTVT>
+    </TACTZ>
+   </TACTZ>
+  </asx:values>
+ </asx:abap>
+</abapGit>
