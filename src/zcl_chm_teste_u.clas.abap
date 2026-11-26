@@ -8,21 +8,21 @@ CLASS zcl_chm_teste_u IMPLEMENTATION.
   METHOD if_oo_adt_classrun~main.
     MODIFY ENTITIES OF ZR_ChamadoU
       ENTITY Chamado
-        UPDATE FIELDS ( Prioridade )
-        WITH VALUE #( ( ChamadoID = 5 Prioridade = 'A' ) ).
+        CREATE FIELDS ( Titulo Cliente )
+        WITH VALUE #( ( %cid    = 'NOVO'
+                        Titulo  = 'Etiqueta sai cortada'
+                        Cliente = '100041' ) )
+      MAPPED DATA(mapeados).
 
-    READ ENTITIES OF ZR_ChamadoU
-      ENTITY Chamado
-        FIELDS ( Prioridade ) WITH VALUE #( ( ChamadoID = 5 ) )
-      RESULT DATA(lidos).
-    out->write( |Lido antes do commit: { lidos[ 1 ]-Prioridade }| ).
+    out->write( |Antes do save: { mapeados-chamado[ 1 ]-ChamadoID }| ).
 
-    COMMIT ENTITIES.
+    COMMIT ENTITIES BEGIN
+      RESPONSE OF ZR_ChamadoU FAILED DATA(falhas).
+      CONVERT KEY OF ZR_ChamadoU
+        FROM mapeados-chamado[ 1 ]-%pid TO DATA(chave_final).
+    COMMIT ENTITIES END.
 
-    MODIFY ENTITIES OF ZR_ChamadoU
-      ENTITY Chamado
-        DELETE FROM VALUE #( ( ChamadoID = 5 ) ).
-    COMMIT ENTITIES.
+    out->write( |Depois do save: { chave_final-ChamadoID }| ).
   ENDMETHOD.
 
 ENDCLASS.

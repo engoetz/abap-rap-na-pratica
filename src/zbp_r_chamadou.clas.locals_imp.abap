@@ -29,18 +29,19 @@ CLASS lhc_Chamado IMPLEMENTATION.
   METHOD create.
     LOOP AT entities INTO DATA(entidade).
       DATA(chamado) = CORRESPONDING zchm_chamado( entidade MAPPING FROM ENTITY ).
-      chamado-chamado_id = zcl_chm_buffer=>proximo_id( ).
-      chamado-status     = 'A'.
+      chamado-status       = 'A'.
+      chamado-chamado_uuid = zcl_chm_buffer=>novo_uuid( ).
       zcl_chm_buffer=>incluir( chamado ).
 
-      INSERT VALUE #( %cid      = entidade-%cid
-                      ChamadoID = chamado-chamado_id ) INTO TABLE mapped-chamado.
+      INSERT VALUE #( %cid = entidade-%cid
+                      %pid = chamado-chamado_uuid ) INTO TABLE mapped-chamado.
     ENDLOOP.
   ENDMETHOD.
 
   METHOD update.
     LOOP AT entities INTO DATA(entidade).
-      DATA(chamado) = zcl_chm_buffer=>ler( entidade-ChamadoID ).
+      DATA(chamado) = zcl_chm_buffer=>ler( chamado_id = entidade-ChamadoID
+                                           pid        = entidade-%pid ).
       IF chamado IS INITIAL.
         APPEND VALUE #( %tky        = entidade-%tky
                         %fail-cause = if_abap_behv=>cause-not_found ) TO failed-chamado.
@@ -55,20 +56,27 @@ CLASS lhc_Chamado IMPLEMENTATION.
 
   METHOD delete.
     LOOP AT keys INTO DATA(chave).
-      zcl_chm_buffer=>excluir( chave-ChamadoID ).
+      zcl_chm_buffer=>excluir( chamado_id = chave-ChamadoID
+                               pid        = chave-%pid ).
     ENDLOOP.
   ENDMETHOD.
 
   METHOD read.
+    DATA lido LIKE LINE OF result.
+
     LOOP AT keys INTO DATA(chave).
-      DATA(chamado) = zcl_chm_buffer=>ler( chave-ChamadoID ).
+      DATA(chamado) = zcl_chm_buffer=>ler( chamado_id = chave-ChamadoID
+                                           pid        = chave-%pid ).
       IF chamado IS INITIAL.
         APPEND VALUE #( %tky        = chave-%tky
                         %fail-cause = if_abap_behv=>cause-not_found ) TO failed-chamado.
         CONTINUE.
       ENDIF.
 
-      INSERT CORRESPONDING #( chamado MAPPING TO ENTITY ) INTO TABLE result.
+      " quem ainda não tem número é devolvido com o mesmo %pid pelo qual foi pedido
+      lido      = CORRESPONDING #( chamado MAPPING TO ENTITY ).
+      lido-%pid = chave-%pid.
+      INSERT lido INTO TABLE result.
     ENDLOOP.
   ENDMETHOD.
 
@@ -78,11 +86,12 @@ CLASS lhc_Chamado IMPLEMENTATION.
                            iv_name = 'EZCHM_CHAMADO' ).
 
         LOOP AT keys INTO DATA(chave).
-          DATA(chamado) = zcl_chm_buffer=>ler( chave-ChamadoID ).
+          DATA(chamado) = zcl_chm_buffer=>ler( chamado_id = chave-ChamadoID
+                                               pid        = chave-%pid ).
 
-          " chave que não existe, ou chamado criado nesta transação e ainda sem
-          " chave técnica: não há linha no banco para bloquear
-          IF chamado-chamado_uuid IS INITIAL.
+          " chave que não existe, ou chamado criado nesta transação (ainda só
+          " com %pid): não há linha no banco para bloquear
+          IF chamado-chamado_uuid IS INITIAL OR chave-%pid IS NOT INITIAL.
             CONTINUE.
           ENDIF.
 
@@ -107,6 +116,8 @@ CLASS lsc_ZR_ChamadoU DEFINITION INHERITING FROM cl_abap_behavior_saver.
 
     METHODS check_before_save REDEFINITION.
 
+    METHODS adjust_numbers REDEFINITION.
+
     METHODS save REDEFINITION.
 
     METHODS cleanup REDEFINITION.
@@ -121,6 +132,13 @@ CLASS lsc_ZR_ChamadoU IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD check_before_save.
+  ENDMETHOD.
+
+  METHOD adjust_numbers.
+    LOOP AT zcl_chm_buffer=>numerar( ) INTO DATA(novo).
+      APPEND VALUE #( %pid           = novo-chamado_uuid
+                      %key-ChamadoID = novo-chamado_id ) TO mapped-chamado.
+    ENDLOOP.
   ENDMETHOD.
 
   METHOD save.
