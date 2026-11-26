@@ -34,3 +34,4 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZC_Apontamento` | CDS projection view (filho) | 07.1 | Projeção de `ZR_Apontamento` para o app; `_Chamado` redirecionada para `ZC_Chamado` |
 | `ZCHM_APONT_D` | Tabela (draft) | 07.2 | Tabela de rascunho de `ZR_Apontamento`, gerada pelo ADT (Ctrl+1 na BDEF); a aula 07.4 abre a tabela e explica o `with draft` das associações |
 | `ZC_Apontamento` | Metadata extension | 07.3 | Anotações de tela do apontamento: colunas da tabela dentro do chamado (`@UI.lineItem`) e campos da página de detalhe (`@UI.identification`) |
+| `ZCL_CHM_EML_DEMO` | Classe | 08.1 | Classe de console do módulo de EML (`if_oo_adt_classrun`, executa com F9): o método `main` é reescrito a cada aula do M08 — leitura (08.1), tipos derivados (08.2), create e update (08.3), create by association e deep create (08.4), actions (08.5), commit com tratamento de erro (08.6) e a prova do `IN LOCAL MODE` (08.7) |
