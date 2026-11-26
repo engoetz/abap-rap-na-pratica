@@ -1,0 +1,24 @@
+unmanaged implementation in class zbp_r_chamadou unique;
+strict ( 2 );
+
+define behavior for ZR_ChamadoU alias Chamado
+lock master
+authorization master ( instance )
+{
+  create;
+  update;
+  delete;
+
+  field ( readonly ) ChamadoID, Status, LastChangedAt;
+  field ( mandatory ) Titulo, Cliente;
+
+  mapping for zchm_chamado
+  {
+    ChamadoID     = chamado_id;
+    Titulo        = titulo;
+    Cliente       = cliente;
+    Prioridade    = prioridade;
+    Status        = status;
+    LastChangedAt = last_changed_at;
+  }
+}
