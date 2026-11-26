@@ -10,9 +10,21 @@ define root view entity ZC_Chamado
       ChamadoID,
       @Search.defaultSearchElement: true
       Titulo,
+      @Consumption.valueHelpDefinition: [{
+        entity: { name: 'ZI_ClienteVH', element: 'Cliente' } }]
       Cliente,
+      @Consumption.valueHelpDefinition: [{
+        entity: { name: 'ZI_PrioridadeVH', element: 'Prioridade' } }]
+      @ObjectModel.text.element: [ 'PrioridadeTexto' ]
       Prioridade,
+      _Prioridade.Descricao   as PrioridadeTexto,
+      _Prioridade.Criticidade as PrioridadeCriticidade,
+      @Consumption.valueHelpDefinition: [{
+        entity: { name: 'ZI_StatusVH', element: 'Status' } }]
+      @ObjectModel.text.element: [ 'StatusTexto' ]
       Status,
+      _Status.Descricao       as StatusTexto,
+      _Status.Criticidade     as StatusCriticidade,
       HorasTotal,
       CreatedBy,
       CreatedAt,

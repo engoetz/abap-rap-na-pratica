@@ -35,15 +35,19 @@ annotate view ZC_Chamado with
   @UI.fieldGroup: [{ qualifier: 'Geral', position: 30 }]
   Cliente;
 
-  @UI.lineItem: [{ position: 40 }]
+  @UI.lineItem: [{ position: 40, criticality: 'PrioridadeCriticidade' }]
   @UI.selectionField: [{ position: 20 }]
-  @UI.fieldGroup: [{ qualifier: 'Geral', position: 40 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 40,
+                     criticality: 'PrioridadeCriticidade' }]
+  @UI.textArrangement: #TEXT_ONLY
   @EndUserText.label: 'Prioridade'
   Prioridade;
 
-  @UI.lineItem: [{ position: 50 }]
+  @UI.lineItem: [{ position: 50, criticality: 'StatusCriticidade' }]
   @UI.selectionField: [{ position: 30 }]
-  @UI.fieldGroup: [{ qualifier: 'Geral', position: 50 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 50,
+                     criticality: 'StatusCriticidade' }]
+  @UI.textArrangement: #TEXT_ONLY
   @EndUserText.label: 'Status'
   Status;
 
