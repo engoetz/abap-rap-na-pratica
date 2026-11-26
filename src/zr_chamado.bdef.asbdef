@@ -4,6 +4,7 @@ with draft;
 
 define behavior for ZR_Chamado alias Chamado
 persistent table zchm_chamado
+with additional save with full data
 draft table zchm_chamado_d
 lock master total etag LastChangedAt
 authorization master ( global, instance )

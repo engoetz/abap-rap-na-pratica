@@ -445,6 +445,8 @@ CLASS lsc_ZR_Chamado DEFINITION INHERITING FROM cl_abap_behavior_saver.
 
     METHODS check_before_save REDEFINITION.
 
+    METHODS save_modified REDEFINITION.
+
 ENDCLASS.
 
 CLASS lsc_ZR_Chamado IMPLEMENTATION.
@@ -455,6 +457,39 @@ CLASS lsc_ZR_Chamado IMPLEMENTATION.
 
   METHOD check_before_save.
     DATA(fase) = 'check before save'.
+  ENDMETHOD.
+
+  METHOD save_modified.
+    DATA logs TYPE STANDARD TABLE OF zchm_log WITH EMPTY KEY.
+
+    LOOP AT create-chamado INTO DATA(criado).
+      APPEND VALUE #( chamado_uuid = criado-ChamadoUUID
+                      operacao     = 'C'
+                      status       = criado-Status ) TO logs.
+    ENDLOOP.
+
+    LOOP AT update-chamado INTO DATA(alterado).
+      APPEND VALUE #( chamado_uuid = alterado-ChamadoUUID
+                      operacao     = 'U'
+                      status       = alterado-Status ) TO logs.
+    ENDLOOP.
+
+    LOOP AT delete-chamado INTO DATA(excluido).
+      APPEND VALUE #( chamado_uuid = excluido-ChamadoUUID
+                      operacao     = 'D' ) TO logs.
+    ENDLOOP.
+
+    TRY.
+        LOOP AT logs ASSIGNING FIELD-SYMBOL(<log>).
+          <log>-log_uuid      = cl_system_uuid=>create_uuid_x16_static( ).
+          <log>-usuario       = sy-uname.
+          <log>-registrado_em = utclong_current( ).
+        ENDLOOP.
+      CATCH cx_uuid_error INTO DATA(erro).
+        RAISE SHORTDUMP erro.
+    ENDTRY.
+
+    INSERT zchm_log FROM TABLE @logs.
   ENDMETHOD.
 
 ENDCLASS.
