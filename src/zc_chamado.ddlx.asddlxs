@@ -20,7 +20,9 @@ annotate view ZC_Chamado with
   @UI.hidden: true
   ChamadoUUID;
 
-  @UI.lineItem: [{ position: 10 }]
+  @UI.lineItem: [{ position: 10 },
+                 { type: #FOR_ACTION, dataAction: 'encerrar', label: 'Encerrar' }]
+  @UI.identification: [{ type: #FOR_ACTION, dataAction: 'encerrar', label: 'Encerrar' }]
   @UI.fieldGroup: [{ qualifier: 'Geral', position: 10 }]
   @EndUserText.label: 'ID do chamado'
   ChamadoID;

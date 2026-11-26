@@ -34,6 +34,8 @@ etag master LocalLastChangedAt
   validation validarTitulo on save { create; field Titulo; }
   validation validarCliente on save { create; field Cliente; }
 
+  action encerrar result [1] $self;
+
   mapping for zchm_chamado
   {
     ChamadoUUID        = chamado_uuid;

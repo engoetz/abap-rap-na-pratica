@@ -16,6 +16,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS validarCliente FOR VALIDATE ON SAVE
       IMPORTING keys FOR Chamado~validarCliente.
 
+    METHODS encerrar FOR MODIFY
+      IMPORTING keys FOR ACTION Chamado~encerrar RESULT result.
+
 ENDCLASS.
 
 CLASS lhc_Chamado IMPLEMENTATION.
@@ -122,6 +125,24 @@ CLASS lhc_Chamado IMPLEMENTATION.
                         v1       = chamado-Cliente ) )
              TO reported-chamado.
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD encerrar.
+    MODIFY ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        UPDATE FIELDS ( Status )
+        WITH VALUE #( FOR key IN keys
+                      ( %tky   = key-%tky
+                        Status = 'E' ) ).
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    result = VALUE #( FOR chamado IN chamados
+                      ( %tky   = chamado-%tky
+                        %param = chamado ) ).
   ENDMETHOD.
 
 ENDCLASS.
