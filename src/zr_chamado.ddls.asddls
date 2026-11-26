@@ -2,6 +2,7 @@
 @EndUserText.label: 'Chamado de suporte'
 define root view entity ZR_Chamado
   as select from zchm_chamado
+  composition [0..*] of ZR_Apontamento as _Apontamentos
   association [0..1] to ZI_ClienteVH    as _Cliente
     on $projection.Cliente = _Cliente.Cliente
   association [0..1] to ZI_PrioridadeVH as _Prioridade
@@ -30,5 +31,6 @@ define root view entity ZR_Chamado
       local_last_changed_at as LocalLastChangedAt,
       _Cliente,
       _Prioridade,
-      _Status
+      _Status,
+      _Apontamentos
 }

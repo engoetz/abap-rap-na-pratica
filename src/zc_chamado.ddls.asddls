@@ -32,5 +32,6 @@ define root view entity ZC_Chamado
       CreatedAt,
       LastChangedBy,
       LastChangedAt,
-      LocalLastChangedAt
+      LocalLastChangedAt,
+      _Apontamentos : redirected to composition child ZC_Apontamento
 }
