@@ -40,6 +40,28 @@ ENDCLASS.
 CLASS lhc_Chamado IMPLEMENTATION.
 
   METHOD get_instance_authorizations.
+
+    CHECK requested_authorizations-%action-encerrar = if_abap_behv=>mk-on.
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        FIELDS ( CreatedBy )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    AUTHORITY-CHECK OBJECT 'ZCHM_CHAM'
+      ID 'ACTVT' FIELD '70'.
+    DATA(gestor) = xsdbool( sy-subrc = 0 ).
+
+    LOOP AT chamados INTO DATA(chamado).
+      APPEND VALUE #(
+        %tky             = chamado-%tky
+        %action-encerrar = COND #(
+          WHEN gestor = abap_true OR chamado-CreatedBy = sy-uname
+          THEN if_abap_behv=>auth-allowed
+          ELSE if_abap_behv=>auth-unauthorized ) ) TO result.
+    ENDLOOP.
+
   ENDMETHOD.
 
   METHOD get_global_authorizations.
