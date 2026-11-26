@@ -38,6 +38,12 @@
      <MSGNR>011</MSGNR>
      <TEXT>A data do apontamento não pode ser futura.</TEXT>
     </T100>
+    <T100>
+     <SPRSL>P</SPRSL>
+     <ARBGB>ZCHM_MSG</ARBGB>
+     <MSGNR>020</MSGNR>
+     <TEXT>Somente o gestor pode definir a prioridade Alta.</TEXT>
+    </T100>
    </T100>
   </asx:values>
  </asx:abap>

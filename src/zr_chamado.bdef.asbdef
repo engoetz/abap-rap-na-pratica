@@ -10,7 +10,7 @@ authorization master ( global, instance )
 etag master LocalLastChangedAt
 {
   create;
-  update;
+  update ( precheck );
   delete;
 
   association _Apontamentos { create; with draft; }

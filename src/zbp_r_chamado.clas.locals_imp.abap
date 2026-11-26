@@ -8,6 +8,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING REQUEST requested_authorizations FOR Chamado
       RESULT result.
 
+    METHODS precheck_update FOR PRECHECK
+      IMPORTING entities FOR UPDATE Chamado.
+
     METHODS definirStatusInicial FOR DETERMINE ON MODIFY
       IMPORTING keys FOR Chamado~definirStatusInicial.
 
@@ -76,6 +79,31 @@ CLASS lhc_Chamado IMPLEMENTATION.
         ELSE if_abap_behv=>auth-unauthorized ).
 
     ENDIF.
+
+  ENDMETHOD.
+
+  METHOD precheck_update.
+
+    AUTHORITY-CHECK OBJECT 'ZCHM_CHAM'
+      ID 'ACTVT' FIELD '70'.
+    CHECK sy-subrc <> 0.
+
+    LOOP AT entities INTO DATA(entidade)
+         WHERE %control-Prioridade = if_abap_behv=>mk-on
+           AND Prioridade = 'A'.
+
+      APPEND VALUE #( %tky        = entidade-%tky
+                      %fail-cause = if_abap_behv=>cause-unauthorized ) TO failed-chamado.
+
+      APPEND VALUE #(
+        %tky                = entidade-%tky
+        %element-Prioridade = if_abap_behv=>mk-on
+        %msg                = new_message(
+          id       = 'ZCHM_MSG'
+          number   = '020'
+          severity = if_abap_behv_message=>severity-error ) ) TO reported-chamado.
+
+    ENDLOOP.
 
   ENDMETHOD.
 
