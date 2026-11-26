@@ -67,9 +67,11 @@ CLASS lsc_ZR_ChamadoU IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD save.
+    zcl_chm_buffer=>gravar( ).
   ENDMETHOD.
 
   METHOD cleanup.
+    zcl_chm_buffer=>limpar( ).
   ENDMETHOD.
 
   METHOD cleanup_finalize.
