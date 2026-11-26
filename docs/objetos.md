@@ -23,3 +23,6 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZCHM_CLI` | Objeto de autorização | 03.6 | Cliente (`ZCHM_CLI`) e atividade (`ACTVT`, 03 = exibir); o papel de cada usuário na PFCG diz quais clientes ele enxerga |
 | `ZR_Chamado` | Access control (DCL) | 03.6 | Só passa a linha cujo cliente está na autorização `ZCHM_CLI` do usuário |
 | `ZC_Chamado` | Access control (DCL) | 03.6 | A projeção herda as condições de `ZR_Chamado` (`inheriting conditions from entity`) |
+| `ZR_Chamado` | Behavior definition (managed) | 04.1 | Comportamento do business object: `create`, `update`, `delete`, chave UUID gerada pelo framework, campos somente leitura e o mapping para `zchm_chamado` |
+| `ZBP_R_CHAMADO` | Classe (behavior pool) | 04.1 | Onde mora a lógica do business object; classe local handler `lhc_Chamado`, por enquanto só com o método de autorização vazio |
+| `ZC_Chamado` | Behavior definition (projeção) | 04.1 | Expõe ao serviço, com `use`, as operações definidas na BDEF base |
