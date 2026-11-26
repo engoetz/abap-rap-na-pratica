@@ -1,30 +1,63 @@
 @Metadata.layer: #CORE
-@UI.headerInfo: { typeName: 'Chamado', typeNamePlural: 'Chamados' }
+@UI.headerInfo: {
+  typeName: 'Chamado',
+  typeNamePlural: 'Chamados',
+  title: { type: #STANDARD, value: 'Titulo' },
+  description: { type: #STANDARD, value: 'ChamadoID' }
+}
 annotate view ZC_Chamado with
 {
+  @UI.facet: [
+    { id: 'Geral', position: 10,
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'Geral',
+      label: 'Informações gerais' },
+    { id: 'Admin', position: 20,
+      type: #FIELDGROUP_REFERENCE,
+      targetQualifier: 'Admin',
+      label: 'Dados administrativos' }
+  ]
+  @UI.hidden: true
+  ChamadoUUID;
+
   @UI.lineItem: [{ position: 10 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 10 }]
   @EndUserText.label: 'ID do chamado'
   ChamadoID;
 
   @UI.lineItem: [{ position: 20 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 20 }]
   @EndUserText.label: 'Título'
   Titulo;
 
   @UI.lineItem: [{ position: 30 }]
   @UI.selectionField: [{ position: 10 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 30 }]
   Cliente;
 
   @UI.lineItem: [{ position: 40 }]
   @UI.selectionField: [{ position: 20 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 40 }]
   @EndUserText.label: 'Prioridade'
   Prioridade;
 
   @UI.lineItem: [{ position: 50 }]
   @UI.selectionField: [{ position: 30 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 50 }]
   @EndUserText.label: 'Status'
   Status;
 
   @UI.lineItem: [{ position: 60 }]
+  @UI.fieldGroup: [{ qualifier: 'Geral', position: 60 }]
   @EndUserText.label: 'Total de horas'
   HorasTotal;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 10 }]
+  CreatedBy;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 20 }]
+  CreatedAt;
+
+  @UI.fieldGroup: [{ qualifier: 'Admin', position: 30 }]
+  LastChangedBy;
 }
