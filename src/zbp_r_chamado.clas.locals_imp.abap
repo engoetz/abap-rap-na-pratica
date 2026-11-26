@@ -28,6 +28,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS get_instance_features FOR INSTANCE FEATURES
       IMPORTING keys REQUEST requested_features FOR Chamado RESULT result.
 
+    METHODS escalarPrioridade FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR Chamado~escalarPrioridade.
+
 ENDCLASS.
 
 CLASS lhc_Chamado IMPLEMENTATION.
@@ -241,6 +244,24 @@ CLASS lhc_Chamado IMPLEMENTATION.
           %field-Cliente = if_abap_behv=>fc-f-mandatory ) TO result.
       ENDIF.
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD escalarPrioridade.
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        FIELDS ( HorasTotal Prioridade )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    DELETE chamados WHERE HorasTotal <= 40 OR Prioridade = 'A'.
+    CHECK chamados IS NOT INITIAL.
+
+    MODIFY ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        UPDATE FIELDS ( Prioridade )
+        WITH VALUE #( FOR chamado IN chamados
+                      ( %tky       = chamado-%tky
+                        Prioridade = 'A' ) ).
   ENDMETHOD.
 
 ENDCLASS.

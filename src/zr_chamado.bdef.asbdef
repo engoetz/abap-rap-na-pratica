@@ -30,6 +30,7 @@ etag master LocalLastChangedAt
 
   determination definirStatusInicial on modify { create; }
   determination definirNumero on save { create; }
+  determination escalarPrioridade on modify { field HorasTotal; }
 
   validation validarTitulo on save { create; field Titulo; }
   validation validarCliente on save { create; field Cliente; }
@@ -37,6 +38,11 @@ etag master LocalLastChangedAt
   action ( features : instance ) encerrar result [1] $self;
   action ( features : instance ) encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
   factory action copiar [1];
+
+  side effects
+  {
+    field HorasTotal affects field Prioridade;
+  }
 
   mapping for zchm_chamado
   {
