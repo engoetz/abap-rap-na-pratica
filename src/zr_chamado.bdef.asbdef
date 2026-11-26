@@ -25,6 +25,7 @@ etag master LocalLastChangedAt
   field ( mandatory ) Titulo, Cliente;
 
   determination definirStatusInicial on modify { create; }
+  determination definirNumero on save { create; }
 
   mapping for zchm_chamado
   {
