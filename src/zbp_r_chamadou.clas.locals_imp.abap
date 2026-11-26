@@ -27,18 +27,75 @@ CLASS lhc_Chamado IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD create.
+    LOOP AT entities INTO DATA(entidade).
+      DATA(chamado) = CORRESPONDING zchm_chamado( entidade MAPPING FROM ENTITY ).
+      chamado-chamado_id = zcl_chm_buffer=>proximo_id( ).
+      chamado-status     = 'A'.
+      zcl_chm_buffer=>incluir( chamado ).
+
+      INSERT VALUE #( %cid      = entidade-%cid
+                      ChamadoID = chamado-chamado_id ) INTO TABLE mapped-chamado.
+    ENDLOOP.
   ENDMETHOD.
 
   METHOD update.
+    LOOP AT entities INTO DATA(entidade).
+      DATA(chamado) = zcl_chm_buffer=>ler( entidade-ChamadoID ).
+      IF chamado IS INITIAL.
+        APPEND VALUE #( %tky        = entidade-%tky
+                        %fail-cause = if_abap_behv=>cause-not_found ) TO failed-chamado.
+        CONTINUE.
+      ENDIF.
+
+      chamado = CORRESPONDING #( BASE ( chamado ) entidade
+                                 MAPPING FROM ENTITY USING CONTROL ).
+      zcl_chm_buffer=>alterar( chamado ).
+    ENDLOOP.
   ENDMETHOD.
 
   METHOD delete.
+    LOOP AT keys INTO DATA(chave).
+      zcl_chm_buffer=>excluir( chave-ChamadoID ).
+    ENDLOOP.
   ENDMETHOD.
 
   METHOD read.
+    LOOP AT keys INTO DATA(chave).
+      DATA(chamado) = zcl_chm_buffer=>ler( chave-ChamadoID ).
+      IF chamado IS INITIAL.
+        APPEND VALUE #( %tky        = chave-%tky
+                        %fail-cause = if_abap_behv=>cause-not_found ) TO failed-chamado.
+        CONTINUE.
+      ENDIF.
+
+      INSERT CORRESPONDING #( chamado MAPPING TO ENTITY ) INTO TABLE result.
+    ENDLOOP.
   ENDMETHOD.
 
   METHOD lock.
+    TRY.
+        DATA(bloqueio) = cl_abap_lock_object_factory=>get_instance(
+                           iv_name = 'EZCHM_CHAMADO' ).
+
+        LOOP AT keys INTO DATA(chave).
+          DATA(chamado) = zcl_chm_buffer=>ler( chave-ChamadoID ).
+
+          " chave que não existe, ou chamado criado nesta transação e ainda sem
+          " chave técnica: não há linha no banco para bloquear
+          IF chamado-chamado_uuid IS INITIAL.
+            CONTINUE.
+          ENDIF.
+
+          bloqueio->enqueue( it_parameter = VALUE #(
+            ( name = 'CHAMADO_UUID' value = REF #( chamado-chamado_uuid ) ) ) ).
+        ENDLOOP.
+
+      CATCH cx_abap_foreign_lock.
+        APPEND VALUE #( %tky        = chave-%tky
+                        %fail-cause = if_abap_behv=>cause-locked ) TO failed-chamado.
+      CATCH cx_abap_lock_failure INTO DATA(erro).
+        RAISE SHORTDUMP erro.
+    ENDTRY.
   ENDMETHOD.
 
 ENDCLASS.

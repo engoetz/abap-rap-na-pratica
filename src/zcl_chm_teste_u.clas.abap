@@ -6,11 +6,23 @@ ENDCLASS.
 CLASS zcl_chm_teste_u IMPLEMENTATION.
 
   METHOD if_oo_adt_classrun~main.
-    zcl_chm_buffer=>incluir( VALUE #( chamado_id = 900 titulo = 'Teste do buffer' ) ).
-    out->write( zcl_chm_buffer=>ler( 900 )-titulo ).
+    MODIFY ENTITIES OF ZR_ChamadoU
+      ENTITY Chamado
+        UPDATE FIELDS ( Prioridade )
+        WITH VALUE #( ( ChamadoID = 5 Prioridade = 'A' ) ).
 
-    SELECT COUNT(*) FROM zchm_chamado WHERE chamado_id = 900 INTO @DATA(no_banco).
-    out->write( |No banco: { no_banco }| ).
+    READ ENTITIES OF ZR_ChamadoU
+      ENTITY Chamado
+        FIELDS ( Prioridade ) WITH VALUE #( ( ChamadoID = 5 ) )
+      RESULT DATA(lidos).
+    out->write( |Lido antes do commit: { lidos[ 1 ]-Prioridade }| ).
+
+    COMMIT ENTITIES.
+
+    MODIFY ENTITIES OF ZR_ChamadoU
+      ENTITY Chamado
+        DELETE FROM VALUE #( ( ChamadoID = 5 ) ).
+    COMMIT ENTITIES.
   ENDMETHOD.
 
 ENDCLASS.
