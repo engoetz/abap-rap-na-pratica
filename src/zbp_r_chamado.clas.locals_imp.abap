@@ -265,3 +265,44 @@ CLASS lhc_Chamado IMPLEMENTATION.
   ENDMETHOD.
 
 ENDCLASS.
+
+CLASS lhc_Apontamento DEFINITION INHERITING FROM cl_abap_behavior_handler.
+  PRIVATE SECTION.
+
+    METHODS calcularTotalHoras FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR Apontamento~calcularTotalHoras.
+
+ENDCLASS.
+
+CLASS lhc_Apontamento IMPLEMENTATION.
+
+  METHOD calcularTotalHoras.
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Apontamento BY \_Chamado
+        FIELDS ( ChamadoUUID )
+        WITH CORRESPONDING #( keys )
+      RESULT DATA(chamados).
+
+    READ ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado BY \_Apontamentos
+        FIELDS ( ChamadoUUID Horas )
+        WITH CORRESPONDING #( chamados )
+      RESULT DATA(apontamentos).
+
+    LOOP AT chamados ASSIGNING FIELD-SYMBOL(<chamado>).
+      CLEAR <chamado>-HorasTotal.
+      LOOP AT apontamentos INTO DATA(apont)
+           WHERE ChamadoUUID = <chamado>-ChamadoUUID
+             AND %is_draft   = <chamado>-%is_draft.
+        <chamado>-HorasTotal += apont-Horas.
+      ENDLOOP.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF ZR_Chamado IN LOCAL MODE
+      ENTITY Chamado
+        UPDATE FIELDS ( HorasTotal )
+        WITH VALUE #( FOR c IN chamados
+                      ( %tky = c-%tky  HorasTotal = c-HorasTotal ) ).
+  ENDMETHOD.
+
+ENDCLASS.

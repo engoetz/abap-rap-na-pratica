@@ -26,7 +26,7 @@ etag master LocalLastChangedAt
   }
 
   field ( numbering : managed, readonly ) ChamadoUUID;
-  field ( readonly ) ChamadoID, Status, CreatedBy, CreatedAt,
+  field ( readonly ) ChamadoID, Status, HorasTotal, CreatedBy, CreatedAt,
                      LastChangedBy, LastChangedAt, LocalLastChangedAt;
   field ( features : instance ) Titulo, Cliente, Prioridade, Descricao;
 
@@ -73,6 +73,10 @@ etag master LocalLastChangedAt
 {
   update;
   delete;
+
+  determination calcularTotalHoras on modify { create; field Horas; }
+
+  side effects { field Horas affects field _Chamado.HorasTotal; }
 
   field ( numbering : managed, readonly ) ApontUUID;
   field ( readonly ) ChamadoUUID, CreatedBy, CreatedAt,
