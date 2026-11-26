@@ -20,9 +20,11 @@ etag master LocalLastChangedAt
   draft determine action Prepare;
 
   field ( numbering : managed, readonly ) ChamadoUUID;
-  field ( readonly ) ChamadoID, CreatedBy, CreatedAt,
+  field ( readonly ) ChamadoID, Status, CreatedBy, CreatedAt,
                      LastChangedBy, LastChangedAt, LocalLastChangedAt;
   field ( mandatory ) Titulo, Cliente;
+
+  determination definirStatusInicial on modify { create; }
 
   mapping for zchm_chamado
   {
