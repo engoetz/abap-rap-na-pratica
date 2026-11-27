@@ -499,6 +499,18 @@ CLASS lsc_ZR_Chamado IMPLEMENTATION.
     LOOP AT delete-chamado INTO DATA(excluido).
       zcl_chm_log_legado=>excluir( excluido-ChamadoUUID ).
     ENDLOOP.
+
+    DATA encerrados TYPE TABLE FOR EVENT ZR_Chamado~ChamadoEncerrado.
+
+    LOOP AT update-chamado INTO DATA(chamado)
+         WHERE Status = 'E'
+           AND %control-Status = if_abap_behv=>mk-on.
+      APPEND VALUE #( ChamadoUUID = chamado-ChamadoUUID ) TO encerrados.
+    ENDLOOP.
+
+    IF encerrados IS NOT INITIAL.
+      RAISE ENTITY EVENT ZR_Chamado~ChamadoEncerrado FROM encerrados.
+    ENDIF.
   ENDMETHOD.
 
 ENDCLASS.

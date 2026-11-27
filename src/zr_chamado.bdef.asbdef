@@ -44,6 +44,8 @@ etag master LocalLastChangedAt
   factory action copiar [1];
   static function ResumoChamados result [1] ZA_ResumoChamados;
 
+  event ChamadoEncerrado;
+
   side effects
   {
     field HorasTotal affects field Prioridade;

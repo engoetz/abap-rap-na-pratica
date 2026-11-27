@@ -1,0 +1,6 @@
+CLASS zcl_chm_evt_chamado DEFINITION PUBLIC ABSTRACT FINAL
+  FOR EVENTS OF zr_chamado.
+ENDCLASS.
+
+CLASS zcl_chm_evt_chamado IMPLEMENTATION.
+ENDCLASS.
