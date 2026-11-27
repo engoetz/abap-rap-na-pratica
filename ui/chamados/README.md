@@ -86,3 +86,109 @@ on-premise, o serviço OData V4 também pode ser publicado pela transação de a
 ### Exercício da aula
 
 Botão direito na pasta `webapp` → **Show Page Map**: as duas páginas do app (lista e detalhe) desenhadas.
+
+## Aula 12.4 — deploy e launchpad
+
+São três passos: o **deploy** leva o app para o repositório ABAP; o **target mapping** e o **tile**
+ensinam o launchpad a abrir o app; e o **catálogo na função** faz o usuário enxergar o tile.
+
+### Antes de começar
+
+- O projeto da aula 12.3 rodando com `npm start`.
+- Uma ordem de transporte de workbench, sua e ainda não liberada.
+- No S/4HANA: o serviço OData `/UI5/ABAP_REPOSITORY_SRV` ativo e o seu usuário com autorização de
+  desenvolvimento.
+- Acesso à ferramenta de conteúdo do launchpad e, para o terceiro passo, à PFCG (em geral, trabalho de Basis).
+
+### 1. Deploy
+
+No terminal, dentro de `ui/chamados`:
+
+```
+npx fiori add deploy-config
+```
+
+| Pergunta | Resposta |
+|---|---|
+| Target | **ABAP** |
+| Sistema | o mesmo S/4HANA da aula 12.3 |
+| Nome do app no repositório ABAP | **`ZCHM_CHAMADOS`** (no máximo 15 caracteres) |
+| Descrição | Gestão de Chamados |
+| Pacote | **`ZCHM`** |
+| Ordem de transporte | a sua ordem de workbench |
+
+O comando cria o arquivo `ui5-deploy.yaml`. O trecho que interessa:
+
+```yaml
+builder:
+  customTasks:
+    - name: deploy-to-abap
+      afterTask: generateCachebusterInfo
+      configuration:
+        target:
+          url: https://<servidor>:<porta>
+          client: "100"
+        app:
+          name: ZCHM_CHAMADOS
+          description: Gestão de Chamados
+          package: ZCHM
+          transport: <sua ordem de transporte>
+```
+
+Não há senha nesse arquivo: usuário e senha são pedidos na hora do deploy.
+
+```
+npm run deploy
+```
+
+O comando compila o projeto, mostra o resumo, pede confirmação e envia os arquivos. Para conferir, atualize
+o pacote `ZCHM` no ADT: aparece a pasta *BSP Library* com a aplicação `ZCHM_CHAMADOS`. A partir daí o app é
+um objeto do repositório ABAP e segue na ordem de transporte.
+
+### 2. Target mapping e tile
+
+O que liga o tile ao app é o **intent**: objeto semântico + ação. No curso, `Chamado` + `manage`. O tile diz
+qual intent dispara; o target mapping diz qual app responde a ele. Os dois pares têm de ser iguais, letra
+por letra.
+
+No catálogo do curso (`ZCHM_CAT`):
+
+| | Campo | Valor |
+|---|---|---|
+| Target mapping | Semantic Object | `Chamado` |
+| | Action | `manage` |
+| | Application Type | SAPUI5 Fiori App |
+| | URL | `/sap/bc/ui5_ui5/sap/zchm_chamados` |
+| | ID | `zchm.chamados` (o `sap.app.id` do `manifest.json`) |
+| Tile (App Launcher – Static) | Title | Gestão de Chamados |
+| | Subtitle | Suporte |
+| | Semantic Object | `Chamado` |
+| | Action | `manage` |
+
+A aula mostra o Launchpad Designer. Nas versões mais novas do S/4HANA a SAP recomenda o Launchpad App
+Manager e o Launchpad Content Manager: as telas mudam, os conceitos são estes.
+
+### 3. Catálogo na função
+
+Na PFCG, a função `ZCHM_ATENDENTE` recebe o catálogo `ZCHM_CAT` no menu, e o usuário recebe a função. Em
+sistemas que usam *spaces* e *pages*, o tile também entra em uma página. Sem esse passo, o tile existe e
+ninguém vê.
+
+### Resultado
+
+No launchpad, o tile **Gestão de Chamados** abre o app, e o endereço termina em `#Chamado-manage`.
+
+### O tile aparece e não abre?
+
+Quase sempre o intent do tile está diferente do intent do target mapping (por exemplo, `gerenciar` em um e
+`manage` no outro). Qualquer diferença quebra a navegação, até maiúscula e minúscula. Se o tile nem
+aparece, o problema é o terceiro passo: catálogo fora da função, ou função fora do usuário.
+
+### Exercício da aula
+
+Mude o subtítulo do tile e confira no launchpad.
+
+### E no BTP?
+
+Se o destino for o BTP, o deploy vai para o Cloud Foundry ou para o ABAP Environment, e o launchpad é o
+SAP Build Work Zone. Os três passos continuam os mesmos.
