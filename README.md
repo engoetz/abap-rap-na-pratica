@@ -16,6 +16,10 @@ para começar o seguinte. Quer comparar o seu código com o de uma aula específ
 
 Aulas só de conceito não mudam o código; a tag delas aponta para o mesmo estado da aula anterior.
 
+Além de `src/` (os objetos ABAP, no formato abapGit), o repositório tem a pasta `docs/`, com material de
+apoio, e, a partir do módulo 12, a pasta `ui/chamados`, com o passo a passo do app Fiori gerado pelo
+SAP Fiori tools. O abapGit só lê `src/`; as outras pastas não são importadas para o sistema.
+
 ## Instalação (S/4HANA on-premise)
 
 1. Crie o pacote `ZCHM` (aula 00.5).
