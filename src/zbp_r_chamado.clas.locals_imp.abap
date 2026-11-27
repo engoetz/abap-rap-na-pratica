@@ -32,6 +32,9 @@ CLASS lhc_Chamado DEFINITION INHERITING FROM cl_abap_behavior_handler.
     METHODS copiar FOR MODIFY
       IMPORTING keys FOR ACTION Chamado~copiar.
 
+    METHODS ResumoChamados FOR READ
+      IMPORTING keys FOR FUNCTION Chamado~ResumoChamados RESULT result.
+
     METHODS get_instance_features FOR INSTANCE FEATURES
       IMPORTING keys REQUEST requested_features FOR Chamado RESULT result.
 
@@ -287,6 +290,27 @@ CLASS lhc_Chamado IMPLEMENTATION.
       MAPPED DATA(criados).
 
     mapped-chamado = criados-chamado.
+  ENDMETHOD.
+
+  METHOD ResumoChamados.
+    DATA resumo TYPE za_resumochamados.
+
+    SELECT Status, COUNT(*) AS Quantidade, SUM( HorasTotal ) AS Horas
+      FROM ZR_Chamado
+      GROUP BY Status
+      INTO TABLE @DATA(grupos).
+
+    LOOP AT grupos INTO DATA(grupo).
+      IF grupo-Status = 'A'.
+        resumo-Abertos = grupo-Quantidade.
+      ELSE.
+        resumo-Encerrados = grupo-Quantidade.
+      ENDIF.
+      resumo-HorasTotais = resumo-HorasTotais + grupo-Horas.
+    ENDLOOP.
+
+    result = VALUE #( FOR key IN keys
+                      ( %cid = key-%cid  %param = resumo ) ).
   ENDMETHOD.
 
   METHOD get_instance_features.

@@ -19,6 +19,7 @@ use etag
   use action encerrar;
   use action encerrarComMotivo;
   use action copiar;
+  use function ResumoChamados;
 
   use association _Apontamentos { create; with draft; }
 }

@@ -42,6 +42,7 @@ etag master LocalLastChangedAt
   action ( features : instance ) encerrar result [1] $self;
   action ( features : instance ) encerrarComMotivo parameter ZA_MotivoEncerramento result [1] $self;
   factory action copiar [1];
+  static function ResumoChamados result [1] ZA_ResumoChamados;
 
   side effects
   {
