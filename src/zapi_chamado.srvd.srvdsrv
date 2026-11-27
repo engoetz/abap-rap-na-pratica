@@ -1,0 +1,5 @@
+@EndUserText.label: 'API de chamados'
+define service ZAPI_CHAMADO {
+  expose ZC_Chamado     as Chamado;
+  expose ZC_Apontamento as Apontamento;
+}

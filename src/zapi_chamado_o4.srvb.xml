@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SRVB" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <SRVB>
+    <METADATA>
+     <NAME>ZAPI_CHAMADO_O4</NAME>
+     <TYPE>SRVB/SVB</TYPE>
+     <DESCRIPTION>API de chamados - OData V4 Web API</DESCRIPTION>
+     <DESCRIPTION_TEXT_LIMIT>60</DESCRIPTION_TEXT_LIMIT>
+     <LANGUAGE>PT</LANGUAGE>
+     <MASTER_LANGUAGE>PT</MASTER_LANGUAGE>
+    </METADATA>
+    <SERVICES>
+     <item>
+      <NAME>ZAPI_CHAMADO</NAME>
+      <CONTENT>
+       <item>
+        <VERSION>0001</VERSION>
+        <SERVICE_DEFINITION>
+         <URI>/sap/bc/adt/ddic/srvd/sources/zapi_chamado</URI>
+         <TYPE>SRVD/SRV</TYPE>
+         <NAME>ZAPI_CHAMADO</NAME>
+        </SERVICE_DEFINITION>
+       </item>
+      </CONTENT>
+     </item>
+    </SERVICES>
+    <BINDING>
+     <TYPE>ODATA</TYPE>
+     <VERSION>V4</VERSION>
+     <CATEGORY>1</CATEGORY>
+     <IMPLEMENTATION>
+      <NAME>ZAPI_CHAMADO_O4</NAME>
+     </IMPLEMENTATION>
+    </BINDING>
+   </SRVB>
+  </asx:values>
+ </asx:abap>
+</abapGit>

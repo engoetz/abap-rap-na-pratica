@@ -55,3 +55,5 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZI_ChamadoTP` | Access control (DCL) | 11.6 | A interface herda as condições de `ZR_Chamado` |
 | `ZI_ChamadoTP` | Behavior definition (interface) | 11.6 | Interface BDEF: oferece `create`, `update` e a action `encerrar`; não oferece `delete`; também liberada com C1 na aula |
 | `ZCL_CHM_INTEGRACAO` | Classe | 11.6 | Classe de console (`if_oo_adt_classrun`, executa com F9) no papel do programa de outro time: cria um chamado por EML pela interface `ZI_ChamadoTP`; na aula ela começa apontando para `ZR_Chamado` e é trocada para a interface |
+| `ZAPI_CHAMADO` | Service definition | 11.7 | Serviço da API de integração, separado do serviço da tela: expõe `ZC_Chamado` como `Chamado` e `ZC_Apontamento` como `Apontamento` |
+| `ZAPI_CHAMADO_O4` | Service binding (OData V4 - Web API) | 11.7 | Publica `ZAPI_CHAMADO` como OData V4 de Web API, para outros sistemas (sem preview); depois do pull é preciso publicar |
