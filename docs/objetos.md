@@ -14,10 +14,10 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZI_StatusVH` | CDS view entity | 02.4 | Ajuda de pesquisa de status: lê os valores fixos do domínio `ZCHM_STATUS` |
 | `ZCHM_PRIORIDADE` | Domínio | 02.4 (exercício) | Valores fixos da prioridade: `A` Alta, `M` Média, `B` Baixa |
 | `ZI_PrioridadeVH` | CDS view entity | 02.4 (exercício) | Ajuda de pesquisa de prioridade: lê os valores fixos do domínio `ZCHM_PRIORIDADE` |
-| `ZC_Chamado` | CDS projection view (raiz) | 03.1 | Projeção de `ZR_Chamado` para o app de suporte, com `provider contract transactional_query`; a partir da 07.1 redireciona `_Apontamentos` para `ZC_Apontamento` |
+| `ZC_Chamado` | CDS projection view (raiz) | 03.1 | Projeção de `ZR_Chamado` para o app de suporte, com `provider contract transactional_query`; a partir da 07.1 redireciona `_Apontamentos` para `ZC_Apontamento`; a partir da 11.1 tem o virtual element `DiasEmAberto`, calculado pela classe `ZCL_CHM_VE_DIAS` |
 | `ZUI_CHAMADO` | Service definition | 03.2 | Diz o que entra no serviço: expõe `ZC_Chamado` com o nome público `Chamado`; a partir da 07.3 expõe também `ZC_Apontamento` como `Apontamento` |
 | `ZUI_CHAMADO_O4` | Service binding (OData V4 - UI) | 03.2 | Publica `ZUI_CHAMADO` como OData V4 de UI e libera o preview do app; depois do pull é preciso publicar (botão *Publish*) |
-| `ZC_Chamado` | Metadata extension | 03.3 | Anotações de tela da projeção: colunas, filtros e cabeçalho da lista; seções da object page a partir da 03.4; seção com a tabela de apontamentos a partir da 07.3 |
+| `ZC_Chamado` | Metadata extension | 03.3 | Anotações de tela da projeção: colunas, filtros e cabeçalho da lista; seções da object page a partir da 03.4; seção com a tabela de apontamentos a partir da 07.3; coluna "Dias em aberto" a partir da 11.1 |
 | `ZCHM` | Classe de objetos de autorização | 03.6 | Agrupa os objetos de autorização do app |
 | `ZCHM_CLI` | Campo de autorização | 03.6 | Campo de cliente (elemento de dados `KUNNR`) usado no objeto de autorização `ZCHM_CLI` |
 | `ZCHM_CLI` | Objeto de autorização | 03.6 | Cliente (`ZCHM_CLI`) e atividade (`ACTVT`, 03 = exibir); o papel de cada usuário na PFCG diz quais clientes ele enxerga |
@@ -44,3 +44,4 @@ Todos os objetos do repositório, na ordem em que aparecem no curso.
 | `ZCL_CHM_TESTE_U` | Classe | 10.4 | Classe de console (`if_oo_adt_classrun`, executa com F9) que testa o BO unmanaged por EML; o método `main` muda a cada aula, da 10.4 à 10.7 |
 | `ZCL_CHM_BUFFER` | Classe | 10.5 | Buffer transacional do BO unmanaged, só com métodos estáticos: guarda o que foi criado, alterado e excluído na interaction phase (`incluir`, `alterar`, `excluir`), responde às leituras olhando a memória antes do banco (`ler`), entrega tudo à classe legada no `save` (`gravar`) e se esvazia no `cleanup` (`limpar`); na 10.7 ganha `novo_uuid` e `numerar` (número definitivo no `adjust_numbers`) e passa a achar pelo `%pid` os chamados criados na transação |
 | `EZCHM_CHAMADO` | Objeto de bloqueio | 10.6 | Bloqueio clássico (enqueue) da tabela `zchm_chamado`, com o argumento `CHAMADO_UUID`; usado pelo método `lock` do BO unmanaged; já vem pronto na aula |
+| `ZCL_CHM_VE_DIAS` | Classe | 11.1 | Calcula o virtual element `DiasEmAberto` de `ZC_Chamado` (`if_sadl_exit_calc_element_read`): `get_calculation_info` pede `CreatedAt` e `Status`, `calculate` devolve os dias desde a criação para os chamados abertos |

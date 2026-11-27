@@ -30,6 +30,9 @@ define root view entity ZC_Chamado
       Descricao,
       CreatedBy,
       CreatedAt,
+      @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_CHM_VE_DIAS'
+      @EndUserText.label: 'Dias em aberto'
+      virtual DiasEmAberto : abap.int4,
       LastChangedBy,
       LastChangedAt,
       LocalLastChangedAt,
