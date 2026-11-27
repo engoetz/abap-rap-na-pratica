@@ -2,4 +2,5 @@
 define service ZUI_CHAMADO {
   expose ZC_Chamado as Chamado;
   expose ZC_Apontamento as Apontamento;
+  expose ZCE_SlaChamado as SlaChamado;
 }
