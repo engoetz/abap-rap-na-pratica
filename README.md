@@ -10,6 +10,7 @@ O repositório está no formato [abapGit](https://abapgit.org) e é instalado no
 | branch `main` | ponto de partida: só a configuração do abapGit e o pacote `ZCHM` |
 | branch `m01` … `m12` | o código como fica **no fim de cada módulo** |
 | tag `m04-a01`, `m04-a02` … | o código como fica **no fim de cada aula** |
+| branch `desafio-contratos` | o enunciado do projeto final (aula 12.6), em `docs/desafio-contratos.md` |
 
 Travou ou pulou um módulo? Puxe a branch do módulo anterior e você está no ponto certo
 para começar o seguinte. Quer comparar o seu código com o de uma aula específica? Use a tag da aula.
@@ -50,6 +51,16 @@ ZI_ClienteVH, ZI_PrioridadeVH, ZI_StatusVH   ajudas de pesquisa
 ZC_Chamado, ZC_Apontamento                   projeção + metadata extension
 ZUI_CHAMADO / ZUI_CHAMADO_O4                 service definition / binding OData V4 - UI
 ZBP_R_CHAMADO                                behavior pool
+
+Módulo 10   ZR_ChamadoU, ZBP_R_CHAMADOU, ZCL_CHM_BUFFER     BO unmanaged de exemplo
+Módulo 11   ZCL_CHM_VE_DIAS                                 virtual element
+            ZCE_SlaChamado, ZCL_CHM_SLA_QUERY               custom entity
+            ZCL_CHM_EVT_CHAMADO                             handler do business event
+            ZX_CHAMADO, ZBP_X_CHAMADO                       BDEF extension
+            ZI_ChamadoTP                                    interface do BO
+            ZAPI_CHAMADO / ZAPI_CHAMADO_O4                  service definition / binding OData V4 - Web API
+Módulo 12   ZCL_CHM_TESTE_CHAMADO                           testes ABAP Unit
+            ui/chamados                                     passo a passo do app Fiori
 ```
 
 A lista completa, com a aula em que cada objeto nasce, está em [docs/objetos.md](docs/objetos.md).
