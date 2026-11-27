@@ -1,0 +1,6 @@
+@EndUserText.label: 'Interface herda o acesso do chamado'
+@MappingRole: true
+define role ZI_ChamadoTP {
+  grant select on ZI_ChamadoTP
+    where inheriting conditions from entity ZR_Chamado;
+}

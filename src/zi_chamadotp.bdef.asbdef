@@ -1,0 +1,8 @@
+interface;
+
+define behavior for ZI_ChamadoTP alias Chamado
+{
+  use create;
+  use update;
+  use action encerrar;
+}
