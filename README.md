@@ -53,6 +53,7 @@ ZBP_R_CHAMADO                                behavior pool
 ```
 
 A lista completa, com a aula em que cada objeto nasce, está em [docs/objetos.md](docs/objetos.md).
+O checklist de revisão da aula 12.5 está em [docs/checklist-bo.md](docs/checklist-bo.md).
 
 ## Uso
 
